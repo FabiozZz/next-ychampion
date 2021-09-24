@@ -1,0 +1,19 @@
+.wrapper {
+  grid-column: 1/13;
+  align-self: center;
+  display: grid;
+  grid-template-columns: inherit;
+  grid-gap: 40px 0;
+}
+
+
+@media screen and (min-width: 1440px) {
+  .wrapper {
+    align-self: center;
+    grid-column: 4/10;
+  }
+  .form_wrapper {
+    margin: 0;
+    padding: 40px 0;
+  }
+}
