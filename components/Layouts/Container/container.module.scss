@@ -1,14 +1,13 @@
 @import '../../../styles/variables';
-
-
 .wrapper {
   margin: 0 32px;
   display: grid;
   grid-template-columns: repeat(12, 1fr);
   height: 100%;
-  grid-auto-rows: min-content;
+  grid-template-rows: 80px 1fr 72px;
   grid-gap: 16px 24px;
   position: relative;
+
   .navigate {
     grid-row: 1/2;
     grid-column: 1/13;
@@ -22,32 +21,43 @@
     @media screen and(min-width: $DESKTOP) {
       display: none;
     }
+
   }
 
   .side_bar {
-    grid-column: 1/2;
-    margin-left: -32px;
-    position: absolute;
-    display: block;
-    top: 0;
-    left: 0;
-    background: $BLACK;
-    width: 72px;
-    z-index: 999999999999999999999;
-    bottom: 0;
-    @media screen and(max-width: $DESKTOP) {
-      display: none;
+    display: none;
+
+    @media screen and(min-width: $DESKTOP) {
+      grid-column: 1/2;
+      margin-left: -32px;
+      position: absolute;
+      display: block;
+      top: 0;
+      left: 0;
+      background: $BLACK;
+      width: 72px;
+      z-index: 999999999999999999999;
+      bottom: 0;
     }
+
   }
 
   .main {
     grid-column: 1/13;
+
     @media screen and(min-width: $DESKTOP){
       grid-column: 2/13;
     }
+
   }
 
   .footer {
+    margin: 0 -32px;
+
+    @media screen and(min-width: $DESKTOP) {
+      display: none;
+    }
 
   }
+
 }

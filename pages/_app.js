@@ -1,28 +1,21 @@
-import '../styles/global.css';
-import { Provider } from 'react-redux'
-import { useStore } from '../store/store'
-import {Auth} from "../components/Auth/Auth";
-import Head from "next/head";
-import Title from "../components/ui/Title/Title";
-import Container from "../components/Layouts/Container/Container";
+import 'styles/global.css';
+import {Provider, useSelector} from 'react-redux';
+import {useStore} from 'store/store';
+import Container from "components/Layouts/Container/Container";
+import HeadApp from "components/ui/Head/Title";
 
 export default function App({ Component, pageProps }) {
-    const store = useStore(pageProps.initialReduxState)
-    const admin = store.getState().user;
+    const store = useStore(pageProps.initialReduxState);
     return (
-        <Provider store={store}>
-
-            <Head>
-                <Title/>
-                {/*<title>soe</title>*/}
-            </Head>
-            {!admin.isAuth ?
+        <>
+            <Provider store={store}>
+            <HeadApp/>
                 <Container>
                     <Component {...pageProps} />
                 </Container>
-                :
-                <Auth/>
-            }
-        </Provider>
+            </Provider>
+
+        </>
     );
 }
+

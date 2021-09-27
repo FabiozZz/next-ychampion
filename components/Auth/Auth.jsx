@@ -4,6 +4,8 @@ import { Button } from "../ui/Buttons/Button";
 import {useDispatch, useSelector} from "react-redux";
 import {isEmpty} from "../helpers/common";
 import classes from './auth.module.scss';
+import {log_in} from "../../store/actions/user";
+import {useSimpleInput} from "../helpers/use/useSimpleInput";
 
 
 /**
@@ -13,8 +15,7 @@ import classes from './auth.module.scss';
  */
 export const Auth = () => {
 
-    const {error,success} = useSelector(state => state.user);
-
+    const {error} = useSelector(state => state.user);
     const [inputError, setIError] = useState(!isEmpty(error));
 
     /**
@@ -23,21 +24,7 @@ export const Auth = () => {
 
     const dispatch = useDispatch();
 
-    /**
-     * стейт для полей ввода
-     */
-    const [data, setData] = useState({
-        username: '',
-        password: ''
-    });
-
-    /**
-     * метод для изменения полей ввода
-     * @param e
-     */
-    const handleChangeInput = (e) => {
-        setData(prevState => ({ ...prevState, [e.target.name]: e.target.value }))
-    };
+    const {data,change_input_name} = useSimpleInput({username:'',password:''})
 
     const focusInput = () => {
         setIError(false)
@@ -48,45 +35,27 @@ export const Auth = () => {
      * тут идет запрос на сервер
      * @param e
      */
-    const handleSubmitForm = async (e) => {
+    const handleSubmitForm = (e) => {
         e.preventDefault();
-        // dispatch(log_in(data))
-        // setIsLoad(true)
-        // await Api.login(data).then(() => {
-        //     setIsLoad(false)
-        //     dispatch();
-        //     history.push('/');
-        // }).catch(er => {
-        //     if (er.response) {
-        //         setIError(true)
-        //         notificationPopUp('error','Введены неверные данные','Перепроверьте введенные данные и попробуйте еще раз')
-        //     }else if (er.request) {
-        //         notificationPopUp('error','Проблемы с сервером','Попробуйте позже')
-        //     } else {
-        //         console.log('another');
-        //     }
-        //     setIsLoad(false)
-        // });
+        dispatch(log_in(data))
     };
     return (
-        <div>
+        <div className={classes.container}>
             <div className={classes.wrapper}>
-                <div className={classes.title}>
-                    <h1>Авторизация</h1>
-                </div>
+                <h1 className={classes.title}>Авторизация</h1>
                 <form className={classes.form_wrapper} onSubmit={handleSubmitForm}>
                     <div className={classes.form_wrapper__item}>
                         <div>
-                            <OtherInput onFocus={focusInput} value={data.username} setValue={handleChangeInput} danger={!isEmpty(error)} label={'введите login'} name={'username'} type={'text'} />
+                            <OtherInput onFocus={focusInput} name={'username'} value={data?.username} setValue={change_input_name} danger={!isEmpty(error)} label={'введите login'} type={'text'} />
                             {inputError&&<span className={classes.warning_text}>Не правильно заполнен Login</span>}
                         </div>
                         <div>
-                            <OtherInput onFocus={focusInput} value={data.password} setValue={handleChangeInput} danger={!isEmpty(error)} label={'введите пароль'} name={'password'} type={'password'} />
+                            <OtherInput onFocus={focusInput} name={'password'} value={data?.password} setValue={change_input_name} danger={!isEmpty(error)} label={'введите пароль'} type={'password'} />
                             {inputError&&<span className={classes.warning_text}>Не правильно заполнен Пароль</span>}
                         </div>
                     </div>
                     <div className={classes.form_wrapper__send}>
-                        <Button factor={'success'} size={"auto"} disabled={!data.username || !data.password} text={'Войти'} type={'submit'} />
+                        <Button factor={'success'} size={"auto"} disabled={!data?.username || !data?.password} text={'Войти'} type={'submit'} />
                     </div>
                 </form>
             </div>
